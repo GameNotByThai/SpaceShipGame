@@ -7,6 +7,11 @@ public class GameMonoBehaviour : MonoBehaviour
         this.LoadComponent();
     }
 
+    protected virtual void Start()
+    {
+        //For override
+    }
+
     protected virtual void Awake()
     {
         this.LoadComponent();
