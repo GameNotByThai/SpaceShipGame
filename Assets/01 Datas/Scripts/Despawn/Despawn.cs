@@ -12,7 +12,7 @@ public abstract class Despawn : GameMonoBehaviour
         this.DespawnObject();
     }
 
-    private void DespawnObject()
+    protected virtual void DespawnObject()
     {
         Destroy(transform.parent.gameObject);
     }
