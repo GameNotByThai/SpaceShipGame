@@ -13,6 +13,11 @@ public class GameMonoBehaviour : MonoBehaviour
         //For override
     }
 
+    protected virtual void OnEnable()
+    {
+        //For override
+    }
+
     protected virtual void Awake()
     {
         this.LoadComponent();
