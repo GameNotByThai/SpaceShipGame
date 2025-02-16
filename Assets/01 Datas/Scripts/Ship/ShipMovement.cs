@@ -1,9 +1,7 @@
-using UnityEngine;
-
 public class ShipMovement : MonoBehaviour
 {
     [SerializeField] protected Vector3 targetPos;
-    [SerializeField] protected float shipSpeed = 0.01f;
+    [SerializeField] protected float shipSpeed = 0.2f;
 
     private void FixedUpdate()
     {
@@ -29,7 +27,7 @@ public class ShipMovement : MonoBehaviour
     protected virtual void Moving()
     {
 
-        Vector3 newPos = Vector3.Lerp(transform.parent.position, this.targetPos, shipSpeed);
+        Vector3 newPos = Vector3.Lerp(transform.parent.position, this.targetPos, shipSpeed * Time.fixedDeltaTime);
         transform.parent.position = newPos;
     }
 }

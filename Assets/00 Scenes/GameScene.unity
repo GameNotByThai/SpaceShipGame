@@ -423,7 +423,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277fb15aa465a5445a2aabc94f917316, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageSender: {fileID: 427274949}
+  damageSender: {fileID: 427274951}
+  bulletDespawn: {fileID: 110733303}
 --- !u!1 &352956386
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,7 +496,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 427274950}
-  - component: {fileID: 427274949}
+  - component: {fileID: 427274951}
   m_Layer: 0
   m_Name: DamageSender
   m_TagString: Untagged
@@ -503,19 +504,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &427274949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 427274948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca12e8c09362802448421f4db7f54cb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 1
 --- !u!4 &427274950
 Transform:
   m_ObjectHideFlags: 0
@@ -531,6 +519,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 245530997}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &427274951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427274948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c3516c98f96fc943aec31ba580ee16e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  bulletCtrl: {fileID: 245530998}
 --- !u!1 &453623953
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,8 +620,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 470829636}
-  - component: {fileID: 470829637}
   - component: {fileID: 470829638}
+  - component: {fileID: 470829637}
   m_Layer: 0
   m_Name: DamageReceiver
   m_TagString: Untagged
@@ -651,11 +653,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 470829635}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ac373d353c387344b5df50c9789cdc8, type: 3}
+  m_Script: {fileID: 11500000, guid: 359feb44955216d41926063a73f629f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sphereCollider: {fileID: 470829638}
   hpCurrent: 2
   hpMax: 2
+  isDead: 0
+  junkCtrl: {fileID: 1472636565}
 --- !u!135 &470829638
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -671,7 +676,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -936,7 +941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPos: {x: 0, y: 0, z: 0}
-  shipSpeed: 0.01
+  shipSpeed: 0.2
 --- !u!1 &921072671
 GameObject:
   m_ObjectHideFlags: 0
@@ -1034,6 +1039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holder: {fileID: 1300672097}
+  spawnedCount: 0
   prefabs:
   - {fileID: 1472636564}
   poolObjs: []
@@ -1063,7 +1069,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bc23ae0d7c0b8244b297356b5cda5b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  junkCtrl: {fileID: 1053822375}
+  junkSpawnerCtrl: {fileID: 1053822375}
+  randomTimer: 0
+  randomDelay: 1
+  randomLimit: 9
 --- !u!1 &1073250351
 GameObject:
   m_ObjectHideFlags: 0
@@ -1302,6 +1311,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 7923787767854416805}
+  junkDespawn: {fileID: 700285035}
 --- !u!1 &1482524803
 GameObject:
   m_ObjectHideFlags: 0
@@ -1435,8 +1445,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -27092691
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ddcac1fac1f5c8943a30c2ef6b724062, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1528,6 +1538,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holder: {fileID: 453623954}
+  spawnedCount: 0
   prefabs:
   - {fileID: 245530997}
   poolObjs: []

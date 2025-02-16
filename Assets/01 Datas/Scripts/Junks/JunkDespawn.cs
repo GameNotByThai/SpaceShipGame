@@ -1,6 +1,6 @@
 public class JunkDespawn : DespawnByDistance
 {
-    protected override void DespawnObject()
+    public override void DespawnObject()
     {
         JunkSpawner.Instance.Despawn(transform.parent);
     }
