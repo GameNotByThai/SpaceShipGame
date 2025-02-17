@@ -1,3 +1,4 @@
+using UnityEngine;
 public class ShipMovement : MonoBehaviour
 {
     [SerializeField] protected Vector3 targetPos;

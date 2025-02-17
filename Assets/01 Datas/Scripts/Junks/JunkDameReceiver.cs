@@ -20,7 +20,25 @@ public class JunkDameReceiver : DamageReceiver
 
     protected override void OnDead()
     {
-        base.OnDead();
+        this.OnDeadFX();
         this.junkCtrl.JunkDespawn.DespawnObject();
+    }
+
+    protected virtual void OnDeadFX()
+    {
+        string fxName = this.GetOnDeadFXName();
+        Transform fxOnDead = FXSpawner.Instance.Spawn(fxName, transform.position, transform.rotation);
+        fxOnDead.gameObject.SetActive(true);
+    }
+
+    protected virtual string GetOnDeadFXName()
+    {
+        return FXSpawner.Smoke1;
+    }
+
+    protected override void ReBon()
+    {
+        this.hpMax = this.junkCtrl.JunkSO.hpMax;
+        base.ReBon();
     }
 }

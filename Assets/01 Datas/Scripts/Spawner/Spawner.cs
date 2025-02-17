@@ -58,13 +58,17 @@ public abstract class Spawner : GameMonoBehaviour
             return null;
         }
 
+        return this.Spawn(prefab, spawnPos, rotation);
+    }
+
+    public virtual Transform Spawn(Transform prefab, Vector3 spawnPos, Quaternion rotation)
+    {
         Transform newPrefab = this.GetObjFromPool(prefab);
         newPrefab.SetPositionAndRotation(spawnPos, rotation);
         newPrefab.parent = this.holder;
         this.spawnedCount++;
         return newPrefab;
     }
-
     public virtual void Despawn(Transform obj)
     {
         this.poolObjs.Add(obj);
@@ -102,5 +106,11 @@ public abstract class Spawner : GameMonoBehaviour
         }
 
         return null;
+    }
+
+    public virtual Transform RandomPrefab()
+    {
+        int rand = Random.Range(0, this.prefabs.Count);
+        return this.prefabs[rand];
     }
 }
