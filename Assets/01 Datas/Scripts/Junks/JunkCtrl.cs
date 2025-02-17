@@ -6,14 +6,26 @@ public class JunkCtrl : GameMonoBehaviour
     public Transform Model { get => model; }
 
     [SerializeField] protected JunkDespawn junkDespawn;
-
     public JunkDespawn JunkDespawn { get => junkDespawn; }
+
+    [SerializeField] protected JunkSO junkSO;
+    public JunkSO JunkSO => junkSO;
 
     protected override void LoadComponent()
     {
         base.LoadComponent();
         this.LoadModel();
         this.LoadJunkDespawn();
+        this.LoadJunkSO();
+    }
+
+    protected virtual void LoadJunkSO()
+    {
+        if (this.junkSO != null) return;
+
+        string resPath = "Junk/" + transform.name;
+        this.junkSO = Resources.Load<JunkSO>(resPath);
+        Debug.LogWarning(transform.name + ": LoadJunkSO", gameObject);
     }
 
     protected virtual void LoadModel()
