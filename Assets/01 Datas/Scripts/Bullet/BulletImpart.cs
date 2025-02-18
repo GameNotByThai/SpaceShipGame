@@ -37,5 +37,21 @@ public class BulletImpart : BulletAbtrack
     protected virtual void OnTriggerEnter(Collider other)
     {
         this.bulletCtrl.DamageSender.SendDamageToObj(other.transform);
+        this.CreateImpactFX();
+    }
+
+    protected virtual void CreateImpactFX()
+    {
+        string fxName = this.GetImpactName();
+
+        Vector3 hitPos = transform.position;
+        Quaternion hitRot = transform.rotation;
+        Transform fxImpact = FXSpawner.Instance.Spawn(fxName, hitPos, hitRot);
+        fxImpact.gameObject.SetActive(true);
+    }
+
+    protected virtual string GetImpactName()
+    {
+        return FXSpawner.Impact_1;
     }
 }
