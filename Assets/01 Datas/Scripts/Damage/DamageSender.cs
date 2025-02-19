@@ -10,6 +10,21 @@ public class DamageSender : GameMonoBehaviour
         if (damageReceiver == null) return;
 
         this.SendDamage(damageReceiver);
+        this.CreateImpactFX();
+    }
+    protected virtual void CreateImpactFX()
+    {
+        string fxName = this.GetImpactName();
+
+        Vector3 hitPos = transform.position;
+        Quaternion hitRot = transform.rotation;
+        Transform fxImpact = FXSpawner.Instance.Spawn(fxName, hitPos, hitRot);
+        fxImpact.gameObject.SetActive(true);
+    }
+
+    protected virtual string GetImpactName()
+    {
+        return FXSpawner.Impact_1;
     }
 
     protected virtual void SendDamage(DamageReceiver damageReceiver)
