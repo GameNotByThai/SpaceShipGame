@@ -37,10 +37,10 @@ public class BulletImpart : BulletAbtrack
     protected virtual void OnTriggerEnter(Collider other)
     {
         this.bulletCtrl.DamageSender.SendDamageToObj(other.transform);
-        this.CreateImpactFX();
+        //this.CreateImpactFX();
     }
 
-    protected virtual void CreateImpactFX()
+    /*protected virtual void CreateImpactFX()
     {
         string fxName = this.GetImpactName();
 
@@ -53,5 +53,5 @@ public class BulletImpart : BulletAbtrack
     protected virtual string GetImpactName()
     {
         return FXSpawner.Impact_1;
-    }
+    }*/
 }
