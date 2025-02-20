@@ -1,10 +1,10 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
-public class ItemPickupable : GameMonoBehaviour
+public class ItemPickupable : ItemAbstract
 {
     [SerializeField] protected SphereCollider sphereCollider;
-    [SerializeField] protected ItemCtrl itemCtrl;
     protected override void LoadComponent()
     {
         base.LoadComponent();
@@ -16,13 +16,27 @@ public class ItemPickupable : GameMonoBehaviour
 
         this.sphereCollider = GetComponent<SphereCollider>();
         this.sphereCollider.isTrigger = true;
-        this.sphereCollider.radius = 0.1f;
+        this.sphereCollider.radius = 0.2f;
         Debug.LogWarning(transform.name + ": LoadSphereCollider", gameObject);
+    }
+
+    public virtual void OnMouseDown()
+    {
+        Debug.Log(transform.parent.name);
+        PlayerCtrl.Instance.PlayerPickup.ItemPickup(this);
     }
 
     public virtual ItemCode GetItemCode()
     {
-        return this.String2ItemCode(transform.parent.name);
+        try
+        {
+            return this.String2ItemCode(transform.parent.name);
+        }
+        catch (ArgumentException e)
+        {
+            Debug.LogError(e.ToString());
+            return ItemCode.NoItem;
+        }
     }
 
     protected virtual ItemCode String2ItemCode(string itemName)
@@ -30,8 +44,8 @@ public class ItemPickupable : GameMonoBehaviour
         return (ItemCode)System.Enum.Parse(typeof(ItemCode), itemName);
     }
 
-    public virtual void Picked(Transform obj)
+    public virtual void Picked()
     {
-        obj.gameObject.SetActive(false);
+        this.itemCtrl.ItemDespawn.DespawnObject();
     }
 }
