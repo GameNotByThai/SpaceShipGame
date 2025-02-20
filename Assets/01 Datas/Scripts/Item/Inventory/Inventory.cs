@@ -23,6 +23,27 @@ public class Inventory : GameMonoBehaviour
         return true;
     }
 
+    public virtual bool DeductItem(ItemCode itemCode, int deductCount)
+    {
+        ItemInventory itemInventory = this.GetItemByCode(itemCode);
+        if (itemInventory == null) return false;
+        int newCount = itemInventory.itemCount - deductCount;
+        if (newCount < 0) return false;
+
+        itemInventory.itemCount = newCount;
+        return true;
+    }
+
+    public virtual bool TryDeductItem(ItemCode itemCode, int deductCount)
+    {
+        ItemInventory itemInventory = this.GetItemByCode(itemCode);
+        if (itemInventory == null) return false;
+        int newCount = itemInventory.itemCount - deductCount;
+        if (newCount < 0) return false;
+
+        return true;
+    }
+
     private ItemInventory GetItemByCode(ItemCode itemCode)
     {
         ItemInventory itemInventory = items.Find((item) => item.itemProfileSO.itemCode == itemCode);

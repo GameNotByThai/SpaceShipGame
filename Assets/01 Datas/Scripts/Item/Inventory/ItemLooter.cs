@@ -53,7 +53,7 @@ public class ItemLooter : GameMonoBehaviour
         ItemCode itemCode = itemPickupable.GetItemCode();
         if (this.inventory.AddItem(itemCode, 1))
         {
-            itemPickupable.Picked(itemPickupable.transform.parent);
+            itemPickupable.Picked();
         }
     }
 }
