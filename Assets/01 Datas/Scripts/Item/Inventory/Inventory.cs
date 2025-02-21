@@ -9,7 +9,68 @@ public class Inventory : GameMonoBehaviour
     protected override void Start()
     {
         base.Start();
-        //this.AddItem(ItemCode.IronOre, 3);
+        this.AddItem(ItemCode.IronOre, 21);
+        this.AddItem(ItemCode.CopperSword, 3);
+    }
+
+    //public virtual bool AddItem(ItemCode itemCode, int addCount)
+    //{
+    //    ItemProfileSO itemProfileSO = this.GetItemProfile(itemCode);
+    //    if (itemProfileSO == null) Debug.LogWarning("Can not found ItemProfile which have this ItemCode");
+
+    //    ItemInventory itemExist = this.GetItemNoFullStack(itemCode);
+    //    if (itemExist == null)
+    //    {
+    //        if (this.IsFullInventorySlot()) return false;
+
+    //        itemExist = this.CreateNewSlotInventory(itemProfileSO);
+    //        this.items.Add(itemExist);
+    //    }
+
+    //    if (itemExist.itemCount + addCount <= itemExist.maxStack)
+    //    {
+    //        itemExist.itemCount += addCount;
+    //        return true;
+    //    }
+
+    //    int stackAddFull = 
+    //}
+
+    protected virtual ItemInventory CreateNewSlotInventory(ItemProfileSO itemProfile)
+    {
+        ItemInventory newItem = new ItemInventory
+        {
+            itemProfileSO = itemProfile,
+            maxStack = itemProfile.defaultMaxStack,
+        };
+        return newItem;
+    }
+
+    protected virtual bool IsFullInventorySlot()
+    {
+        return this.items.Count >= maxSlot;
+    }
+
+    protected virtual ItemInventory GetItemNoFullStack(ItemCode itemCode)
+    {
+        foreach (ItemInventory item in this.items)
+        {
+            if (item.itemProfileSO.itemCode != itemCode) continue;
+            if (item.itemCount == item.maxStack) continue;
+            return item;
+        }
+        return null;
+    }
+
+    private ItemProfileSO GetItemProfile(ItemCode itemCode)
+    {
+        var profiles = Resources.LoadAll<ItemProfileSO>("Item");
+        foreach (ItemProfileSO profile in profiles)
+        {
+            if (profile.itemCode != itemCode) continue;
+            return profile;
+        }
+        return null;
     }
 
     public virtual bool AddItem(ItemCode itemCode, int addCount)
@@ -54,7 +115,7 @@ public class Inventory : GameMonoBehaviour
 
     private ItemInventory AddEmtyProfile(ItemCode itemCode)
     {
-        var profiles = Resources.LoadAll<ItemProfileSO>("ItemProfiles");
+        var profiles = Resources.LoadAll<ItemProfileSO>("Item");
         foreach (ItemProfileSO profile in profiles)
         {
             if (profile.itemCode != itemCode) continue;

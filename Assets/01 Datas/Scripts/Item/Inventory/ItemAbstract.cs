@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ItemAbstract : GameMonoBehaviour
+public abstract class ItemAbstract : GameMonoBehaviour
 {
     [Header("Item Abstract")]
     [SerializeField] protected ItemCtrl itemCtrl;

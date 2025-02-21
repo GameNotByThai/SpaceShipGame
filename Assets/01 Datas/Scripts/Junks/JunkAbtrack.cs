@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class JunkAbtrack : GameMonoBehaviour
+public abstract class JunkAbtrack : GameMonoBehaviour
 {
     [SerializeField] protected JunkCtrl junkCtrl;
     public JunkCtrl JunkCtrl { get => junkCtrl; }
