@@ -4,37 +4,65 @@ using UnityEngine;
 public class Inventory : GameMonoBehaviour
 {
     [SerializeField] protected int maxSlot = 70;
+    public int MaxSlot => maxSlot;
+
     [SerializeField] protected List<ItemInventory> items;
+    public List<ItemInventory> Items => items;
 
     protected override void Start()
     {
         base.Start();
-        this.AddItem(ItemCode.IronOre, 21);
-        this.AddItem(ItemCode.CopperSword, 3);
+        this.AddItem(ItemCode.CopperSword, 1);
+        this.AddItem(ItemCode.GoldOre, 10);
+        this.AddItem(ItemCode.IronOre, 20);
     }
 
-    //public virtual bool AddItem(ItemCode itemCode, int addCount)
-    //{
-    //    ItemProfileSO itemProfileSO = this.GetItemProfile(itemCode);
-    //    if (itemProfileSO == null) Debug.LogWarning("Can not found ItemProfile which have this ItemCode");
+    public virtual bool AddItem(ItemCode itemCode, int addCount)
+    {
+        ItemProfileSO itemProfileSO = this.GetItemProfile(itemCode);
+        if (itemProfileSO == null) Debug.LogWarning("Can not found ItemProfile which have this ItemCode");
 
-    //    ItemInventory itemExist = this.GetItemNoFullStack(itemCode);
-    //    if (itemExist == null)
-    //    {
-    //        if (this.IsFullInventorySlot()) return false;
+        int addRemain = addCount;
+        int newCount;
+        int itemMaxStack;
+        int addMore;
+        ItemInventory itemExist;
+        for (int i = 0; i < this.maxSlot; i++)
+        {
+            itemExist = this.GetItemNoFullStack(itemCode);
+            if (itemExist == null)
+            {
+                if (this.IsFullInventorySlot()) return false;
 
-    //        itemExist = this.CreateNewSlotInventory(itemProfileSO);
-    //        this.items.Add(itemExist);
-    //    }
+                itemExist = this.CreateNewSlotInventory(itemProfileSO);
+                this.items.Add(itemExist);
+            }
 
-    //    if (itemExist.itemCount + addCount <= itemExist.maxStack)
-    //    {
-    //        itemExist.itemCount += addCount;
-    //        return true;
-    //    }
+            newCount = itemExist.itemCount + addRemain;
+            itemMaxStack = this.GetItemMaxStack(itemExist);
+            if (newCount > itemMaxStack)
+            {
+                addMore = itemMaxStack - itemExist.itemCount;
+                newCount = itemExist.itemCount + addMore;
+                addRemain -= addMore;
+            }
+            else
+            {
+                addRemain -= newCount;
+            }
+            itemExist.itemCount = newCount;
+            if (addRemain < 1) break;
+        }
 
-    //    int stackAddFull = 
-    //}
+        return true;
+    }
+
+    protected virtual int GetItemMaxStack(ItemInventory itemInventory)
+    {
+        if (itemInventory == null) return 0;
+
+        return itemInventory.maxStack;
+    }
 
     protected virtual ItemInventory CreateNewSlotInventory(ItemProfileSO itemProfile)
     {
@@ -62,7 +90,7 @@ public class Inventory : GameMonoBehaviour
         return null;
     }
 
-    private ItemProfileSO GetItemProfile(ItemCode itemCode)
+    protected virtual ItemProfileSO GetItemProfile(ItemCode itemCode)
     {
         var profiles = Resources.LoadAll<ItemProfileSO>("Item");
         foreach (ItemProfileSO profile in profiles)
@@ -73,60 +101,127 @@ public class Inventory : GameMonoBehaviour
         return null;
     }
 
-    public virtual bool AddItem(ItemCode itemCode, int addCount)
+    public virtual bool ItemCheck(ItemCode itemCode, int itemCount)
     {
-        ItemInventory itemInventory = this.GetItemByCode(itemCode);
-        if (itemInventory == null) return false;
-        int newCount = itemInventory.itemCount + addCount;
-        if (newCount > itemInventory.maxStack) return false;
-
-        itemInventory.itemCount = newCount;
-        return true;
+        int totalCount = this.ItemTotalCount(itemCode);
+        return totalCount >= itemCount;
     }
 
-    public virtual bool DeductItem(ItemCode itemCode, int deductCount)
+    protected virtual int ItemTotalCount(ItemCode itemCode)
     {
-        ItemInventory itemInventory = this.GetItemByCode(itemCode);
-        if (itemInventory == null) return false;
-        int newCount = itemInventory.itemCount - deductCount;
-        if (newCount < 0) return false;
-
-        itemInventory.itemCount = newCount;
-        return true;
-    }
-
-    public virtual bool TryDeductItem(ItemCode itemCode, int deductCount)
-    {
-        ItemInventory itemInventory = this.GetItemByCode(itemCode);
-        if (itemInventory == null) return false;
-        int newCount = itemInventory.itemCount - deductCount;
-        if (newCount < 0) return false;
-
-        return true;
-    }
-
-    private ItemInventory GetItemByCode(ItemCode itemCode)
-    {
-        ItemInventory itemInventory = items.Find((item) => item.itemProfileSO.itemCode == itemCode);
-        if (itemInventory == null) return itemInventory = this.AddEmtyProfile(itemCode);
-        if (itemInventory == null) return null;
-        return itemInventory;
-    }
-
-    private ItemInventory AddEmtyProfile(ItemCode itemCode)
-    {
-        var profiles = Resources.LoadAll<ItemProfileSO>("Item");
-        foreach (ItemProfileSO profile in profiles)
+        int totalCount = 0;
+        foreach (ItemInventory itemInventory in items)
         {
-            if (profile.itemCode != itemCode) continue;
-            ItemInventory itemInventory = new ItemInventory
-            {
-                itemProfileSO = profile,
-                maxStack = profile.defaultMaxStack
-            };
-            this.items.Add(itemInventory);
-            return itemInventory;
+            if (itemInventory.itemProfileSO.itemCode != itemCode) continue;
+            totalCount += itemInventory.itemCount;
         }
-        return null;
+        return totalCount;
     }
+
+    public virtual void DeductItem(ItemCode itemCode, int deductCount)
+    {
+        ItemInventory itemInventory;
+        int deduct;
+        for (int i = this.items.Count - 1; i >= 0; i--)
+        {
+            Debug.Log("current " + i);
+            if (deductCount <= 0) break;
+
+            itemInventory = this.items[i];
+            if (itemInventory.itemProfileSO.itemCode != itemCode) continue;
+
+            if (deductCount > itemInventory.itemCount)
+            {
+                deduct = itemInventory.itemCount;
+                deductCount -= itemInventory.itemCount;
+            }
+            else
+            {
+                deduct = deductCount;
+                deductCount = 0;
+            }
+
+            itemInventory.itemCount -= deduct;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //public virtual bool AddItem(ItemCode itemCode, int addCount)
+    //{
+    //    ItemInventory itemInventory = this.GetItemByCode(itemCode);
+    //    if (itemInventory == null) return false;
+    //    int newCount = itemInventory.itemCount + addCount;
+    //    if (newCount > itemInventory.maxStack) return false;
+
+    //    itemInventory.itemCount = newCount;
+    //    return true;
+    //}
+
+    //public virtual bool DeductItem(ItemCode itemCode, int deductCount)
+    //{
+    //    ItemInventory itemInventory = this.GetItemByCode(itemCode);
+    //    if (itemInventory == null) return false;
+    //    int newCount = itemInventory.itemCount - deductCount;
+    //    if (newCount < 0) return false;
+
+    //    itemInventory.itemCount = newCount;
+    //    return true;
+    //}
+
+    //public virtual bool TryDeductItem(ItemCode itemCode, int deductCount)
+    //{
+    //    ItemInventory itemInventory = this.GetItemByCode(itemCode);
+    //    if (itemInventory == null) return false;
+    //    int newCount = itemInventory.itemCount - deductCount;
+    //    if (newCount < 0) return false;
+
+    //    return true;
+    //}
+
+    //private ItemInventory GetItemByCode(ItemCode itemCode)
+    //{
+    //    ItemInventory itemInventory = items.Find((item) => item.itemProfileSO.itemCode == itemCode);
+    //    if (itemInventory == null) return itemInventory = this.AddEmtyProfile(itemCode);
+    //    if (itemInventory == null) return null;
+    //    return itemInventory;
+    //}
+
+    //private ItemInventory AddEmtyProfile(ItemCode itemCode)
+    //{
+    //    var profiles = Resources.LoadAll<ItemProfileSO>("Item");
+    //    foreach (ItemProfileSO profile in profiles)
+    //    {
+    //        if (profile.itemCode != itemCode) continue;
+    //        ItemInventory itemInventory = new ItemInventory
+    //        {
+    //            itemProfileSO = profile,
+    //            maxStack = profile.defaultMaxStack
+    //        };
+    //        this.items.Add(itemInventory);
+    //        return itemInventory;
+    //    }
+    //    return null;
+    //}
 }

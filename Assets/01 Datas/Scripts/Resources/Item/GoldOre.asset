@@ -16,3 +16,4 @@ MonoBehaviour:
   itemTpye: 1
   itemName: GoldOre
   defaultMaxStack: 7
+  upgrageLevels: []

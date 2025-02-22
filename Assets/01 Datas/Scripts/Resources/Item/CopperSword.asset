@@ -16,3 +16,9 @@ MonoBehaviour:
   itemTpye: 2
   itemName: CopperSword
   defaultMaxStack: 1
+  upgrageLevels:
+  - ingredients:
+    - ItemProfile: {fileID: 11400000, guid: 94d67745f15671e48b536759e5aee340, type: 2}
+      itemCount: 2
+    - ItemProfile: {fileID: 11400000, guid: 85ebdda088f46c1458cda4e5d60b3d7c, type: 2}
+      itemCount: 12
