@@ -4,6 +4,9 @@ public class ItemCtrl : GameMonoBehaviour
 {
     [SerializeField] protected ItemDespawn itemDespawn;
     public ItemDespawn ItemDespawn => itemDespawn;
+
+    [SerializeField] protected ItemInventory itemInventory;
+    public ItemInventory ItemInventory => itemInventory;
     protected override void LoadComponent()
     {
         base.LoadComponent();
@@ -16,5 +19,10 @@ public class ItemCtrl : GameMonoBehaviour
 
         this.itemDespawn = transform.GetComponentInChildren<ItemDespawn>();
         Debug.LogWarning(transform.name + ": LoadItemDespawn", gameObject);
+    }
+
+    public virtual void SetItemInventory(ItemInventory itemInventory)
+    {
+        this.itemInventory = itemInventory;
     }
 }

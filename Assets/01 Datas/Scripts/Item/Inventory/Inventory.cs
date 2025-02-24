@@ -17,6 +17,24 @@ public class Inventory : GameMonoBehaviour
         this.AddItem(ItemCode.IronOre, 20);
     }
 
+    public virtual bool AddItem(ItemInventory itemInventory)
+    {
+        int addCount = itemInventory.itemCount;
+        ItemProfileSO itemProfile = itemInventory.itemProfileSO;
+        ItemCode itemCode = itemProfile.itemCode;
+        ItemType itemType = itemProfile.itemTpye;
+        if (itemType == ItemType.Equiment) return this.AddEquitment(itemInventory);
+
+        return true;
+    }
+
+    public virtual bool AddEquitment(ItemInventory itemInventory)
+    {
+        if (this.IsFullInventorySlot()) return false;
+        this.items.Add(itemInventory);
+        return true;
+    }
+
     public virtual bool AddItem(ItemCode itemCode, int addCount)
     {
         ItemProfileSO itemProfileSO = this.GetItemProfile(itemCode);
@@ -124,7 +142,6 @@ public class Inventory : GameMonoBehaviour
         int deduct;
         for (int i = this.items.Count - 1; i >= 0; i--)
         {
-            Debug.Log("current " + i);
             if (deductCount <= 0) break;
 
             itemInventory = this.items[i];
@@ -142,6 +159,18 @@ public class Inventory : GameMonoBehaviour
             }
 
             itemInventory.itemCount -= deduct;
+        }
+
+        this.ClearEmptySlot();
+    }
+
+    protected virtual void ClearEmptySlot()
+    {
+        ItemInventory itemInventory;
+        for (int i = 0; i < this.items.Count; i++)
+        {
+            itemInventory = this.items[i];
+            if (itemInventory.itemCount == 0) this.items.RemoveAt(i);
         }
     }
 
