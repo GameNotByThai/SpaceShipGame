@@ -8,8 +8,8 @@ public class JunkCtrl : GameMonoBehaviour
     [SerializeField] protected JunkDespawn junkDespawn;
     public JunkDespawn JunkDespawn { get => junkDespawn; }
 
-    [SerializeField] protected JunkSO junkSO;
-    public JunkSO JunkSO => junkSO;
+    [SerializeField] protected ShootableObjectSO junkSO;
+    public ShootableObjectSO JunkSO => junkSO;
 
     protected override void LoadComponent()
     {
@@ -23,8 +23,8 @@ public class JunkCtrl : GameMonoBehaviour
     {
         if (this.junkSO != null) return;
 
-        string resPath = "Junk/" + transform.name;
-        this.junkSO = Resources.Load<JunkSO>(resPath);
+        string resPath = "ShootableObject/Junk/" + transform.name;
+        this.junkSO = Resources.Load<ShootableObjectSO>(resPath);
         Debug.LogWarning(transform.name + ": LoadJunkSO", gameObject);
     }
 
@@ -33,7 +33,7 @@ public class JunkCtrl : GameMonoBehaviour
         if (this.Model != null) return;
 
         this.model = transform.Find("Model");
-        Debug.Log(transform.name + ": LoadModel", gameObject);
+        Debug.LogWarning(transform.name + ": LoadModel", gameObject);
     }
 
     protected virtual void LoadJunkDespawn()
@@ -41,6 +41,6 @@ public class JunkCtrl : GameMonoBehaviour
         if (this.JunkDespawn != null) return;
 
         this.junkDespawn = transform.GetComponentInChildren<JunkDespawn>();
-        Debug.Log(transform.name + ": LoadJunkDespawn", gameObject);
+        Debug.LogWarning(transform.name + ": LoadJunkDespawn", gameObject);
     }
 }

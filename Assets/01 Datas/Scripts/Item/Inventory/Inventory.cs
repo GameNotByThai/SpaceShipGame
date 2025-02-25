@@ -12,9 +12,9 @@ public class Inventory : GameMonoBehaviour
     protected override void Start()
     {
         base.Start();
-        this.AddItem(ItemCode.CopperSword, 1);
-        this.AddItem(ItemCode.GoldOre, 10);
-        this.AddItem(ItemCode.IronOre, 20);
+        //this.AddItem(ItemCode.CopperSword, 1);
+        //this.AddItem(ItemCode.GoldOre, 10);
+        //this.AddItem(ItemCode.IronOre, 20);
     }
 
     public virtual bool AddItem(ItemInventory itemInventory)
@@ -31,13 +31,15 @@ public class Inventory : GameMonoBehaviour
     public virtual bool AddEquitment(ItemInventory itemInventory)
     {
         if (this.IsFullInventorySlot()) return false;
-        this.items.Add(itemInventory);
+
+        ItemInventory item = itemInventory.Clone();
+        this.items.Add(item);
         return true;
     }
 
     public virtual bool AddItem(ItemCode itemCode, int addCount)
     {
-        ItemProfileSO itemProfileSO = this.GetItemProfile(itemCode);
+        ItemProfileSO itemProfileSO = ItemProfileSO.FindByItemCode(itemCode);
         if (itemProfileSO == null) Debug.LogWarning("Can not found ItemProfile which have this ItemCode");
 
         int addRemain = addCount;
@@ -108,16 +110,16 @@ public class Inventory : GameMonoBehaviour
         return null;
     }
 
-    protected virtual ItemProfileSO GetItemProfile(ItemCode itemCode)
-    {
-        var profiles = Resources.LoadAll<ItemProfileSO>("Item");
-        foreach (ItemProfileSO profile in profiles)
-        {
-            if (profile.itemCode != itemCode) continue;
-            return profile;
-        }
-        return null;
-    }
+    //protected virtual ItemProfileSO GetItemProfile(ItemCode itemCode)
+    //{
+    //    var profiles = Resources.LoadAll<ItemProfileSO>("Item");
+    //    foreach (ItemProfileSO profile in profiles)
+    //    {
+    //        if (profile.itemCode != itemCode) continue;
+    //        return profile;
+    //    }
+    //    return null;
+    //}
 
     public virtual bool ItemCheck(ItemCode itemCode, int itemCount)
     {

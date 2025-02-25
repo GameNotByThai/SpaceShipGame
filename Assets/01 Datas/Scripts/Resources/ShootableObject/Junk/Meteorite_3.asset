@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aefa8623e632674b986ed5a6d80cef0, type: 3}
+  m_Script: {fileID: 11500000, guid: 4753c93c737825a4eacf3d84bc84ecb8, type: 3}
   m_Name: Meteorite_3
   m_EditorClassIdentifier: 
-  junkName: Junk
+  objName: Junk
+  objectType: 1
   hpMax: 7
   dropList:
   - itemSO: {fileID: 11400000, guid: 1e10ad6d9912b5a48939e40080de9844, type: 2}
