@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2b93e103f26acd42b1d91da2eb6a6df, type: 3}
+  m_Name: CopperSword
+  m_EditorClassIdentifier: 
+  itemCode: 3
+  itemTpye: 2
+  itemName: CopperSword
+  defaultMaxStack: 1
+  upgrageLevels:
+  - ingredients:
+    - ItemProfile: {fileID: 11400000, guid: 94d67745f15671e48b536759e5aee340, type: 2}
+      itemCount: 2
+    - ItemProfile: {fileID: 11400000, guid: 85ebdda088f46c1458cda4e5d60b3d7c, type: 2}
+      itemCount: 2
+  - ingredients:
+    - ItemProfile: {fileID: 11400000, guid: 94d67745f15671e48b536759e5aee340, type: 2}
+      itemCount: 3
+    - ItemProfile: {fileID: 11400000, guid: 85ebdda088f46c1458cda4e5d60b3d7c, type: 2}
+      itemCount: 3
+  - ingredients:
+    - ItemProfile: {fileID: 11400000, guid: 94d67745f15671e48b536759e5aee340, type: 2}
+      itemCount: 4
+    - ItemProfile: {fileID: 11400000, guid: 85ebdda088f46c1458cda4e5d60b3d7c, type: 2}
+      itemCount: 5

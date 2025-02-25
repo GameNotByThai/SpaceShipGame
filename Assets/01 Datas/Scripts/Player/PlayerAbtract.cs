@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerAbtract : GameMonoBehaviour
+public abstract class PlayerAbtract : GameMonoBehaviour
 {
     [Header("Player Abtract")]
     [SerializeField] protected PlayerCtrl playerCtrl;

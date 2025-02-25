@@ -3,9 +3,9 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 [RequireComponent(typeof(Rigidbody))]
 
-public class ItemLooter : GameMonoBehaviour
+public class ItemLooter : InventoryAbstract
 {
-    [SerializeField] protected Inventory inventory;
+    [Header("Item Looter")]
     [SerializeField] protected SphereCollider sphereCollider;
     [SerializeField] protected Rigidbody _rigidbody;
 
@@ -16,15 +16,6 @@ public class ItemLooter : GameMonoBehaviour
         this.LoadTrigger();
         this.LoadRigidbody();
     }
-
-    protected virtual void LoadInventory()
-    {
-        if (this.inventory != null) return;
-
-        this.inventory = transform.parent.GetComponent<Inventory>();
-        Debug.LogWarning(transform.name + ": LoadInventory", gameObject);
-    }
-
     protected virtual void LoadTrigger()
     {
         if (this.sphereCollider != null) return;
@@ -50,8 +41,8 @@ public class ItemLooter : GameMonoBehaviour
         ItemPickupable itemPickupable = other.GetComponent<ItemPickupable>();
         if (itemPickupable == null) return;
 
-        ItemCode itemCode = itemPickupable.GetItemCode();
-        if (this.inventory.AddItem(itemCode, 1))
+        ItemInventory itemInventory = itemPickupable.ItemCtrl.ItemInventory;
+        if (this.inventory.AddItem(itemInventory))
         {
             itemPickupable.Picked();
         }

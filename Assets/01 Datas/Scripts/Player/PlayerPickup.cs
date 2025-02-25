@@ -6,8 +6,10 @@ public class PlayerPickup : PlayerAbtract
     {
         Debug.Log("Item Picked");
 
-        ItemCode itemCode = itemPickupable.GetItemCode();
-        if (this.playerCtrl.CurentShip.Inventory.AddItem(itemCode, 1))
+        //ItemCode itemCode = itemPickupable.GetItemCode();
+
+        ItemInventory itemInventory = itemPickupable.ItemCtrl.ItemInventory;
+        if (this.playerCtrl.CurentShip.Inventory.AddItem(itemInventory))
         {
             itemPickupable.Picked();
         }
