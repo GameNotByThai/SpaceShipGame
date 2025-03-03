@@ -36,6 +36,7 @@ public class BulletImpart : BulletAbtrack
 
     protected virtual void OnTriggerEnter(Collider other)
     {
+        if (other.transform.parent == bulletCtrl.Shooter) return;
         this.bulletCtrl.DamageSender.SendDamageToObj(other.transform);
         //this.CreateImpactFX();
     }

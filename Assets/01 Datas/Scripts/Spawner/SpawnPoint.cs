@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-public abstract class SpawnPoint : GameMonoBehaviour
+public class SpawnPoint : GameMonoBehaviour
 {
     [SerializeField] protected List<Transform> points;
 
@@ -19,7 +19,7 @@ public abstract class SpawnPoint : GameMonoBehaviour
             this.points.Add(point);
         }
 
-        Debug.Log(transform.name + ": LoadPoints", gameObject);
+        Debug.LogWarning(transform.name + ": LoadPoints", gameObject);
     }
 
     public virtual Transform GetRandom()
