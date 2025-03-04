@@ -26,7 +26,6 @@ public abstract class ObjectShooting : MonoBehaviour
         newBullet.gameObject.SetActive(true);
         BulletCtrl bulletCtrl = newBullet.GetComponent<BulletCtrl>();
         bulletCtrl.SetShooter(transform.parent);
-        Debug.Log("Shooting");
     }
 
     protected virtual bool IsDelayTime()

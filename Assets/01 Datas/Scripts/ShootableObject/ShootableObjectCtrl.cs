@@ -20,6 +20,9 @@ public abstract class ShootableObjectCtrl : GameMonoBehaviour
     [SerializeField] protected ObjectLockAtTarget objectLockAtTarget;
     public ObjectLockAtTarget ObjectLockAtTarget => objectLockAtTarget;
 
+    [SerializeField] protected Spawner spawner;
+    public Spawner Spawner => spawner;
+
     protected override void LoadComponent()
     {
         base.LoadComponent();
@@ -29,6 +32,7 @@ public abstract class ShootableObjectCtrl : GameMonoBehaviour
         this.LoadObjectShooting();
         this.LoadObjectMovement();
         this.LoadObjectLockAtTarget();
+        this.LoadSpawner();
     }
 
     protected virtual void LoadModel()
@@ -63,6 +67,7 @@ public abstract class ShootableObjectCtrl : GameMonoBehaviour
         this.objectShooting = transform.GetComponentInChildren<ObjectShooting>();
         Debug.LogWarning(transform.name + ": LoadObjectShooting", gameObject);
     }
+
     protected virtual void LoadObjectMovement()
     {
         if (this.objectMovement != null) return;
@@ -70,12 +75,21 @@ public abstract class ShootableObjectCtrl : GameMonoBehaviour
         this.objectMovement = transform.GetComponentInChildren<ObjectMovement>();
         Debug.LogWarning(transform.name + ": LoadObjectMovement", gameObject);
     }
+
     protected virtual void LoadObjectLockAtTarget()
     {
         if (this.objectLockAtTarget != null) return;
 
         this.objectLockAtTarget = transform.GetComponentInChildren<ObjectLockAtTarget>();
         Debug.LogWarning(transform.name + ": LoadObjectLockAtTarget", gameObject);
+    }
+
+    protected virtual void LoadSpawner()
+    {
+        if (this.spawner != null) return;
+
+        this.spawner = transform.parent?.parent?.GetComponent<Spawner>();
+        Debug.LogWarning(transform.name + ": LoadSpawner", gameObject);
     }
 
     protected abstract string GetSONameToString();

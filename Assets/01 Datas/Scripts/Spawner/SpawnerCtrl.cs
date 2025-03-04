@@ -28,7 +28,7 @@ public class SpawnerCtrl : GameMonoBehaviour
     {
         if (this.spawnPoint != null) return;
 
-        this.spawnPoint = Transform.FindObjectOfType<SpawnPoint>();
+        this.spawnPoint = GameObject.Find("GameSpawnPoint").GetComponent<SpawnPoint>();
         Debug.LogWarning(transform.name + ": LoadSpawnPoint", gameObject);
     }
 }
