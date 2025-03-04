@@ -28,7 +28,7 @@ public class JunkSpawnerCtrl : GameMonoBehaviour
     {
         if (this.junkSpawnPoint != null) return;
 
-        this.junkSpawnPoint = Transform.FindObjectOfType<SpawnPoint>();
+        this.junkSpawnPoint = GameObject.Find("GameSpawnPoint").GetComponent<SpawnPoint>();
         Debug.LogWarning(transform.name + ": LoadJunkSpawnPoint", gameObject);
     }
 }

@@ -18,8 +18,6 @@ public class SpawnPoint : GameMonoBehaviour
         {
             this.points.Add(point);
         }
-
-        Debug.LogWarning(transform.name + ": LoadPoints", gameObject);
     }
 
     public virtual Transform GetRandom()
