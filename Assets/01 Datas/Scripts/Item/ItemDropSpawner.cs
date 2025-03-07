@@ -62,7 +62,7 @@ public class ItemDropSpawner : Spawner
 
             if (rate <= itemRate)
             {
-                Debug.Log("DROPED");
+                //Debug.Log("DROPED");
                 droppedItems.Add(item);
             }
         }

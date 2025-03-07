@@ -29,6 +29,11 @@ public class BaseAbility : GameMonoBehaviour
         this.Timeing();
     }
 
+    protected virtual void Update()
+    {
+
+    }
+
     protected virtual void Timeing()
     {
         if (this.isReady) return;

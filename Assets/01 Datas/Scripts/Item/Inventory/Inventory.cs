@@ -17,25 +17,26 @@ public class Inventory : GameMonoBehaviour
         //this.AddItem(ItemCode.IronOre, 20);
     }
 
-    public virtual bool AddItem(ItemInventory itemInventory)
-    {
-        int addCount = itemInventory.itemCount;
-        ItemProfileSO itemProfile = itemInventory.itemProfileSO;
-        ItemCode itemCode = itemProfile.itemCode;
-        ItemType itemType = itemProfile.itemTpye;
-        if (itemType == ItemType.Equiment) return this.AddEquitment(itemInventory);
+    //public virtual bool AddItem(ItemInventory itemInventory)
+    //{
+    //    Debug.Log("Add: " + itemInventory.itemProfileSO.itemName);
+    //    int addCount = itemInventory.itemCount;
+    //    ItemProfileSO itemProfile = itemInventory.itemProfileSO;
+    //    ItemCode itemCode = itemProfile.itemCode;
+    //    ItemType itemType = itemProfile.itemTpye;
+    //    if (itemType == ItemType.Equiment) return this.AddEquitment(itemInventory);
 
-        return true;
-    }
+    //    return AddItem(itemCode, 1);
+    //}
 
-    public virtual bool AddEquitment(ItemInventory itemInventory)
-    {
-        if (this.IsFullInventorySlot()) return false;
+    //public virtual bool AddEquitment(ItemInventory itemInventory)
+    //{
+    //    if (this.IsFullInventorySlot()) return false;
 
-        ItemInventory item = itemInventory.Clone();
-        this.items.Add(item);
-        return true;
-    }
+    //    ItemInventory item = itemInventory.Clone();
+    //    this.items.Add(item);
+    //    return true;
+    //}
 
     public virtual bool AddItem(ItemCode itemCode, int addCount)
     {

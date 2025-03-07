@@ -1,0 +1,50 @@
+using UnityEngine;
+public class UIInventory : GameMonoBehaviour
+{
+    private static UIInventory instance;
+    public static UIInventory Instance => instance;
+
+    protected bool isOpen = false;
+    protected override void Awake()
+    {
+        base.Awake();
+        if (UIInventory.instance != null) Debug.LogError("Only 1 UIInventory allow to exist");
+        UIInventory.instance = this;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        this.Close();
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        this.ShowingItem();
+    }
+    public virtual void Toggle()
+    {
+        this.isOpen = !this.isOpen;
+        if (this.isOpen) this.Open();
+        else this.Close();
+    }
+
+    public virtual void Open()
+    {
+        gameObject.SetActive(true);
+        this.isOpen = true;
+    }
+
+    public virtual void Close()
+    {
+        gameObject.SetActive(false);
+        this.isOpen = false;
+    }
+
+    protected virtual void ShowingItem()
+    {
+        if (!this.isOpen) return;
+        float itemCount = PlayerCtrl.Instance.CurentShip.Inventory.Items.Count;
+        Debug.Log("Item Count: " + itemCount);
+    }
+}

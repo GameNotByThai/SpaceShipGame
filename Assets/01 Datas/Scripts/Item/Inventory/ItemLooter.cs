@@ -12,7 +12,6 @@ public class ItemLooter : InventoryAbstract
     protected override void LoadComponent()
     {
         base.LoadComponent();
-        this.LoadInventory();
         this.LoadTrigger();
         this.LoadRigidbody();
     }
@@ -42,7 +41,7 @@ public class ItemLooter : InventoryAbstract
         if (itemPickupable == null) return;
 
         ItemInventory itemInventory = itemPickupable.ItemCtrl.ItemInventory;
-        if (this.inventory.AddItem(itemInventory))
+        if (this.inventory.AddItem(itemInventory.itemProfileSO.itemCode, 1))
         {
             itemPickupable.Picked();
         }

@@ -23,6 +23,9 @@ public abstract class ShootableObjectCtrl : GameMonoBehaviour
     [SerializeField] protected Spawner spawner;
     public Spawner Spawner => spawner;
 
+    [SerializeField] protected DamageReceiver damageReceiver;
+    public DamageReceiver DamageReceiver => damageReceiver;
+
     protected override void LoadComponent()
     {
         base.LoadComponent();
@@ -33,6 +36,7 @@ public abstract class ShootableObjectCtrl : GameMonoBehaviour
         this.LoadObjectMovement();
         this.LoadObjectLockAtTarget();
         this.LoadSpawner();
+        this.LoadDamageReceiver();
     }
 
     protected virtual void LoadModel()
@@ -89,6 +93,13 @@ public abstract class ShootableObjectCtrl : GameMonoBehaviour
         if (this.spawner != null) return;
 
         this.spawner = transform.parent?.parent?.GetComponent<Spawner>();
+        Debug.LogWarning(transform.name + ": LoadSpawner", gameObject);
+    }
+    protected virtual void LoadDamageReceiver()
+    {
+        if (this.damageReceiver != null) return;
+
+        this.damageReceiver = transform.GetComponentInChildren<DamageReceiver>();
         Debug.LogWarning(transform.name + ": LoadSpawner", gameObject);
     }
 

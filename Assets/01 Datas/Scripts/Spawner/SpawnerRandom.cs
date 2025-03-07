@@ -21,11 +21,6 @@ public class SpawnerRandom : GameMonoBehaviour
         Debug.LogWarning(transform.name + ": LoadSpawnerCtrl", gameObject);
     }
 
-    //protected override void Start()
-    //{
-    //    this.JunkSpawning();
-    //}
-
     protected virtual void FixedUpdate()
     {
         Spawning();

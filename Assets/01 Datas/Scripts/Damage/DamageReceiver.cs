@@ -5,14 +5,12 @@ public abstract class DamageReceiver : GameMonoBehaviour
 {
     [Header("Damage Receiver")]
     [SerializeField] protected SphereCollider sphereCollider;
-    [SerializeField] protected int hpCurrent = 2;
-    [SerializeField] protected int hpMax = 2;
+    [SerializeField] protected int hpCurrent = 20;
+    [SerializeField] protected int hpMax = 20;
     [SerializeField] protected bool isDead = false;
-    //protected override void Start()
-    //{
-    //    this.ReBon();
-    //}
 
+    public int HpCurrent => hpCurrent;
+    public int HPMax => hpMax;
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -32,7 +30,7 @@ public abstract class DamageReceiver : GameMonoBehaviour
         this.sphereCollider = GetComponent<SphereCollider>();
         this.sphereCollider.isTrigger = true;
         this.sphereCollider.radius = 0.2f;
-        Debug.Log(transform.name + ": LoadSphereCollider", gameObject);
+        Debug.LogWarning(transform.name + ": LoadSphereCollider", gameObject);
     }
 
     protected virtual void ReBon()
@@ -68,7 +66,7 @@ public abstract class DamageReceiver : GameMonoBehaviour
 
     protected abstract void OnDead();
 
-    protected virtual bool IsDead()
+    public virtual bool IsDead()
     {
         return this.hpCurrent <= 0;
     }

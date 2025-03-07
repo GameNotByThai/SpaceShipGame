@@ -15,7 +15,7 @@ public class ShootableObjDameReceiver : DamageReceiver
         if (this.shootableObjCtrl != null) return;
 
         this.shootableObjCtrl = transform.parent.GetComponent<ShootableObjectCtrl>();
-        Debug.Log(transform.name + ": LoadJunkCtrl", gameObject);
+        Debug.LogWarning(transform.name + ": LoadJunkCtrl", gameObject);
     }
 
     protected override void OnDead()

@@ -15,4 +15,9 @@ public class FollowTarget : GameMonoBehaviour
         if (this.target == null) return;
         transform.position = Vector3.Lerp(transform.position, this.target.position, followSpeed * Time.fixedDeltaTime);
     }
+
+    public virtual void SetTarget(Transform target)
+    {
+        this.target = target;
+    }
 }

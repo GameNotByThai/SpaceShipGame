@@ -65,7 +65,7 @@ public abstract class Spawner : GameMonoBehaviour
     {
         Transform newPrefab = this.GetObjFromPool(prefab);
         newPrefab.SetPositionAndRotation(spawnPos, rotation);
-        newPrefab.parent = this.holder;
+        newPrefab.SetParent(this.holder);
         this.spawnedCount++;
         return newPrefab;
     }
