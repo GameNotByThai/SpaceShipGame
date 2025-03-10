@@ -63,21 +63,67 @@ public class UIInventory : UIInventoryAbstract
 
     protected virtual void SortItem()
     {
-        switch (this.inventorySort)
+        if (this.inventorySort == InventorySort.NoSort) return;
+
+        int itemCount = this.inventoryCtrl.Content.childCount;
+        Transform currentItem, nextItem;
+        UIItemInventory currentUIItem, nextUIItem;
+        ItemProfileSO currentProfile, nextProfile;
+        string currentName, nextName;
+        int currentCount, nextCount;
+        bool isSorting = false;
+
+        for (int i = 0; i < itemCount - 1; i++)
         {
-            case InventorySort.ByName:
-                Debug.Log("Sort By Name");
-                break;
-            case InventorySort.ByCount:
-                Debug.Log("Sort By Count");
-                break;
-            case InventorySort.ById:
-                Debug.Log("Sort By Id");
-                break;
-            default:
-                Debug.Log("No Sort");
-                break;
+            currentItem = this.inventoryCtrl.Content.GetChild(i);
+            nextItem = this.inventoryCtrl.Content.GetChild(i + 1);
+
+            currentUIItem = currentItem.GetComponent<UIItemInventory>();
+            nextUIItem = nextItem.GetComponent<UIItemInventory>();
+
+            currentProfile = currentUIItem.ItemInventory.itemProfileSO;
+            nextProfile = nextUIItem.ItemInventory.itemProfileSO;
+
+            bool isSwap = false;
+            switch (this.inventorySort)
+            {
+                case InventorySort.ByName:
+                    Debug.Log("====== Inventory.SortByName ======");
+                    currentName = currentProfile.itemName;
+                    nextName = nextProfile.itemName;
+                    isSwap = string.Compare(currentName, nextName) == 1;
+                    Debug.Log(i + ": " + currentName + " | " + nextName + " = " + isSwap);
+                    break;
+                case InventorySort.ByCount:
+                    Debug.Log("====== Inventory.SortByCount ======");
+                    currentCount = currentUIItem.ItemInventory.itemCount;
+                    nextCount = nextUIItem.ItemInventory.itemCount;
+                    isSwap = currentCount < nextCount;
+                    Debug.Log(i + ": " + currentCount + " | " + nextCount + " = " + isSwap);
+                    break;
+            }
+
+            if (isSwap)
+            {
+                this.SwapItem(currentItem, nextItem);
+                isSorting = true;
+            }
         }
+        if (isSorting) this.SortItem();
+    }
+
+    protected virtual void SortByName()
+    {
+
+    }
+
+    protected virtual void SwapItem(Transform currentItem, Transform nextItem)
+    {
+        int currentIndex = currentItem.GetSiblingIndex();
+        int nextIndex = nextItem.GetSiblingIndex();
+
+        currentItem.SetSiblingIndex(nextIndex);
+        nextItem.SetSiblingIndex(currentIndex);
     }
 
     protected virtual void ClearItem()

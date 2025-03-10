@@ -14,6 +14,7 @@ public class Inventory : GameMonoBehaviour
         base.Start();
         this.AddItem(ItemCode.CopperSword, 1);
         this.AddItem(ItemCode.GoldOre, 10);
+        this.AddItem(ItemCode.CopperSword, 1);
         this.AddItem(ItemCode.IronOre, 20);
     }
 
