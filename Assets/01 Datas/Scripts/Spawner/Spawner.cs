@@ -18,7 +18,7 @@ public abstract class Spawner : GameMonoBehaviour
         this.LoadHolder();
     }
 
-    private void LoadHolder()
+    protected virtual void LoadHolder()
     {
         if (this.holder != null) return;
         this.holder = transform.Find("Holder");
@@ -71,6 +71,8 @@ public abstract class Spawner : GameMonoBehaviour
     }
     public virtual void Despawn(Transform obj)
     {
+        if (this.poolObjs.Contains(obj)) return;
+
         this.poolObjs.Add(obj);
         obj.gameObject.SetActive(false);
         this.spawnedCount--;

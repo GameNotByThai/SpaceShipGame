@@ -12,31 +12,10 @@ public class Inventory : GameMonoBehaviour
     protected override void Start()
     {
         base.Start();
-        //this.AddItem(ItemCode.CopperSword, 1);
-        //this.AddItem(ItemCode.GoldOre, 10);
-        //this.AddItem(ItemCode.IronOre, 20);
+        this.AddItem(ItemCode.CopperSword, 1);
+        this.AddItem(ItemCode.GoldOre, 10);
+        this.AddItem(ItemCode.IronOre, 20);
     }
-
-    //public virtual bool AddItem(ItemInventory itemInventory)
-    //{
-    //    Debug.Log("Add: " + itemInventory.itemProfileSO.itemName);
-    //    int addCount = itemInventory.itemCount;
-    //    ItemProfileSO itemProfile = itemInventory.itemProfileSO;
-    //    ItemCode itemCode = itemProfile.itemCode;
-    //    ItemType itemType = itemProfile.itemTpye;
-    //    if (itemType == ItemType.Equiment) return this.AddEquitment(itemInventory);
-
-    //    return AddItem(itemCode, 1);
-    //}
-
-    //public virtual bool AddEquitment(ItemInventory itemInventory)
-    //{
-    //    if (this.IsFullInventorySlot()) return false;
-
-    //    ItemInventory item = itemInventory.Clone();
-    //    this.items.Add(item);
-    //    return true;
-    //}
 
     public virtual bool AddItem(ItemCode itemCode, int addCount)
     {
@@ -89,6 +68,7 @@ public class Inventory : GameMonoBehaviour
     {
         ItemInventory newItem = new ItemInventory
         {
+            itemId = ItemInventory.RandomID(10),
             itemProfileSO = itemProfile,
             maxStack = itemProfile.defaultMaxStack,
         };

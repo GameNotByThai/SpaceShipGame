@@ -16,7 +16,7 @@ public class FXSpawner : Spawner
         base.Awake();
         if (FXSpawner.instance != null)
         {
-            Debug.LogError("Only one BulletSpawner allow to exist", gameObject);
+            Debug.LogError("Only one FXSpawner allow to exist", gameObject);
         }
         FXSpawner.instance = this;
     }

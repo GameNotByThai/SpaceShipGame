@@ -1,10 +1,14 @@
+using System.Collections.Generic;
 using UnityEngine;
-public class UIInventory : GameMonoBehaviour
+public class UIInventory : UIInventoryAbstract
 {
+    [Header("UI Inventory")]
     private static UIInventory instance;
     public static UIInventory Instance => instance;
 
     protected bool isOpen = false;
+
+    [SerializeField] InventorySort inventorySort;
     protected override void Awake()
     {
         base.Awake();
@@ -16,12 +20,13 @@ public class UIInventory : GameMonoBehaviour
     {
         base.Start();
         this.Close();
+        InvokeRepeating(nameof(this.ShowingItem), 1, 1);
     }
 
-    protected virtual void FixedUpdate()
-    {
-        this.ShowingItem();
-    }
+    //protected virtual void FixedUpdate()
+    //{
+    //    this.ShowingItem();
+    //}
     public virtual void Toggle()
     {
         this.isOpen = !this.isOpen;
@@ -31,20 +36,52 @@ public class UIInventory : GameMonoBehaviour
 
     public virtual void Open()
     {
-        gameObject.SetActive(true);
+        this.inventoryCtrl.gameObject.SetActive(true);
         this.isOpen = true;
     }
 
     public virtual void Close()
     {
-        gameObject.SetActive(false);
+        this.inventoryCtrl.gameObject.SetActive(false);
         this.isOpen = false;
     }
 
     protected virtual void ShowingItem()
     {
         if (!this.isOpen) return;
-        float itemCount = PlayerCtrl.Instance.CurentShip.Inventory.Items.Count;
-        Debug.Log("Item Count: " + itemCount);
+        this.ClearItem();
+
+        List<ItemInventory> items = PlayerCtrl.Instance.CurentShip.Inventory.Items;
+        UIInvItemSpawner spawner = this.inventoryCtrl.UIInvItemSpawner;
+        //Debug.Log("Item Count: " + itemCount);
+        foreach (ItemInventory item in items)
+        {
+            spawner.SpawnItem(item);
+        }
+        this.SortItem();
+    }
+
+    protected virtual void SortItem()
+    {
+        switch (this.inventorySort)
+        {
+            case InventorySort.ByName:
+                Debug.Log("Sort By Name");
+                break;
+            case InventorySort.ByCount:
+                Debug.Log("Sort By Count");
+                break;
+            case InventorySort.ById:
+                Debug.Log("Sort By Id");
+                break;
+            default:
+                Debug.Log("No Sort");
+                break;
+        }
+    }
+
+    protected virtual void ClearItem()
+    {
+        this.inventoryCtrl.UIInvItemSpawner.ClearItem();
     }
 }
